@@ -1,0 +1,176 @@
+﻿
+<div id="example">
+    <div class="container">
+        <div class="row">
+            <form id="myForm">
+
+                <div id="grid" style="margin-top:30px"></div>
+                <hr />
+
+                <label for="Employee"><b>Departments</b></label>
+                <select class="form-control dropo" id="Employee" name="Employee"></select>
+
+                <label for="Countries"><b>Countries</b></label>
+                <select class="form-control" id="Countries" name="Countries"></select>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section scripts{
+
+    <script>
+        let url = "http://localhost:56970/api/Emp/";
+        $(document).ready(function () {
+            var crudServiceBaseUrl = url,
+                dataSource = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url: crudServiceBaseUrl,
+                            dataType: "json"
+                        },
+                        update: {
+                            // url: crudServiceBaseUrl + "/Products/Update",
+                            url: function (x) {
+                                return crudServiceBaseUrl + x.EmployeeId;
+                            },
+                            contentType: "application/json",
+                            type: "PUT"
+                        },
+                        create: {
+                            url: crudServiceBaseUrl,
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: function (EmployeeList) {
+                                return crudServiceBaseUrl + EmployeeList.EmployeeId;
+                            },
+                            contentType: "application/json",
+                            type: "DELETE"
+                        },
+
+                        parameterMap: function (options, operation) {
+                            //if (operation == "create") {
+                            //    return {
+                            //        FirstName: options.FirstName
+                            //    };
+                            //}
+                            return JSON.stringify(options);
+                        }
+                    },
+                    // batch: true, // in true bashe create kar nakhahad kard
+                    batch: false,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true,
+                    pageSize: 10,
+                    schema: {
+                        data: "Data",
+                        total: "Total",//need for paging
+                        model: {
+                            id: "EmployeeId",
+                            fields: {
+                                EmployeeId: { editable: false, type: "number" },
+                                FirstName: {
+                                    editable: true,
+                                    nullable: false,
+                                    type: "string",
+                                    validation: {
+                                        required: true
+                                    }
+                                },
+                                LastName: { validation: { required: true }, type: "string" },
+                                Company: { validation: { required: true }, type: "string" }
+                                //Discontinued: { type: "boolean" },
+                                //UnitsInStock: { type: "number", validation: { min: 0, required: true } }
+                            }
+                        }
+                    }
+                })
+
+
+            ///////////////
+            $("#grid").kendoGrid({
+                dataSource: dataSource,
+                height: 400,
+                //editable: "popup",
+                filterable: true,
+                sortable: true,
+                pageable: true,
+                groupable: true,
+                toolbar: [{ name: "create", text: "Add", iconClass: "fa fa-plus" }],
+                columns: [{
+                    field: "EmployeeId",
+                    filterable: false
+                }, {
+                    field: "FirstName",
+                    title: "تام",
+                }, {
+                    field: "LastName",
+                    title: "نام خانوادگی"
+                }, {
+                    field: "Company",
+                    title: "Company",
+                },
+                {
+                    //command: [
+                    //    { name: "Detail", text: "", iconClass: "fa fa-map-marker" },
+                    //    { name: "edit", text: { edit: "ویرایش ", update: "آپدیت ", cancel: " کنسل" }, iconClass: "fa fa-pencil" },
+                    //]
+                },
+                { command: "destroy", title: "حذف", width: "110px" },
+                { command: "edit", title: "ویرایش", width: "110px" },
+
+                ]
+            });
+
+            $.ajax({
+                type: "GET",
+                url: url+"fordrop",
+                data: "{}",
+                success: function (data) {
+                    let s = '<option value="-1">Please Select an Employee</option>';
+                    for (var i = 0; i < data.length; i++) {
+
+                        s += '<option value="' + data[i].EmployeeId + '">' + data[i].FirstName + '</option>';
+                    }
+                    $("#Employee").html(s);
+
+                }
+            });
+
+        });
+
+
+
+        $('#Employee').change(function () {
+            // alert(this.value);alert($('#Employee').val());
+            let Counturl = "http://localhost:56970/api/Count/"; // should have slash / at end to join with id
+            let selectedEmpID = this.value; //or $('#Employee').val()
+            $.ajax({
+                type: "get",
+                url: Counturl + selectedEmpID,
+                data: "{}",
+                success: function (data) {
+                    //console.log(data);
+                    let co = '<option value="-1">please select an country</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        co += '<option value="' + data[i].EmpCountryId + '">' + data[i].Country + '</option>';
+                    }
+                    // alert(co);
+                    $("#Countries").html(co);
+                }
+            });
+
+        });
+
+    </script>
+
+}
+
+

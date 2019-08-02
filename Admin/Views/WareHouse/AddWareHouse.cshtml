@@ -1,0 +1,38 @@
+﻿@model MyEshop.Models.WareHouse
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeID, "TypeID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TypeID", String.Empty)
+                @Html.ValidationMessageFor(model => model.TypeID)
+            </div>
+        </div>
+
+      @Html.HiddenFor(m=>m.ProductID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Count, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Count)
+                @Html.ValidationMessageFor(model => model.Count)
+            </div>
+        </div>
+
+ 
+
+        <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ایجاد" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+

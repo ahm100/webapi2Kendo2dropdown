@@ -1,0 +1,53 @@
+﻿
+
+@{
+    ViewBag.Title = "فهرست ";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="showlist">
+    @Html.Action("ShowList")
+</div>
+
+<script>
+    $("#btnCreate").click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/Admin/Product_Groups/Create"
+
+        }).done(function(res) {
+            $("#myModal").modal();
+            $("#myModalLabel").html("افزودن گروه جدید");
+            $("#bodyModal").html(res);
+        });
+
+    });
+
+
+    function Edit(id) {
+        $.ajax({
+            url: "/Admin/Product_Groups/Edit/"+id
+
+        }).done(function (res) {
+            $("#myModal").modal();
+            $("#myModalLabel").html("ویرایش گروه");
+            $("#bodyModal").html(res);
+        });
+    }
+
+    function Delete(id) {
+        $.ajax({
+            url: "/Admin/Product_Groups/Delete/" + id
+
+        }).done(function (res) {
+            $("#myModal").modal();
+            $("#myModalLabel").html("حذف گروه");
+            $("#bodyModal").html(res);
+        });
+    }
+
+    function Success() {
+        $("#myModal").modal('hide');
+    }
+</script>

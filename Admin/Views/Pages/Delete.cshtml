@@ -1,0 +1,62 @@
+﻿@model MyEshop.Models.Pages
+
+@{
+    ViewBag.Title = "حذف " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>آیا از حذف این مورد اطمینان دارید؟</h3>
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+
+  
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageSee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageSee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageImage)
+        </dt>
+
+        <dd>
+            @if (Model.PageImage != null)
+            {
+                <img class="thumbnail" style="max-width: 220px" src="/Images/PageImages/@Model.PageImage" />
+            }
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+       <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="تایید حذف" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+    }
+</div>

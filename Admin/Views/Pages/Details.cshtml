@@ -1,0 +1,58 @@
+﻿@model MyEshop.Models.Pages
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pages</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageSee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageSee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageImage)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PageID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

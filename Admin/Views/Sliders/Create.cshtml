@@ -1,0 +1,60 @@
+﻿@model MyEshop.Models.Slider
+
+@{
+    ViewBag.Title = "افزودن " + Server.HtmlDecode(Html.DisplayNameFor(model => model).ToString());
+}
+
+<h2>افزودن @Html.DisplayNameFor(model => model)</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SlideTitle, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SlideTitle)
+                @Html.ValidationMessageFor(model => model.SlideTitle)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SlideImage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.Kendo().Upload().Name("ImageUp")
+                @Html.ValidationMessageFor(model => model.SlideImage)
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SlideLink, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SlideLink)
+                @Html.ValidationMessageFor(model => model.SlideLink)
+            </div>
+        </div>
+
+        <div class="form-group">
+			<div class="col-md-2">
+            </div>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsActive)
+				@Html.LabelFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive)
+            </div>
+        </div>
+
+        <div class="form-group" id="buttons">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="ایجاد" class="btn btn-primary" />
+				@Html.ActionLink("بازگشت به فهرست", "Index")
+            </div>
+        </div>
+    </div>
+}
+

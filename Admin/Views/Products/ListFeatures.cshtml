@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MyEshop.Areas.Admin.Models.FeatureListItemViewModel>
+@{
+    int counter = 1;
+}
+<table class="table table-bordered">
+    <tr>
+        <th>
+            ردیف
+        </th>
+        <th>
+            عنوان
+        </th>
+        <th>
+            مقدار
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@counter</td>
+            <td>@item.Title</td>
+            <td>@item.FeatureValue</td>
+            <td>
+                <a class="btn btn-danger" onclick="deleteFeature(@item.FeatureID,'@item.FeatureValue')">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </td>
+        </tr>
+
+        counter += 1;
+    }
+</table>

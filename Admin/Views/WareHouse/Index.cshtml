@@ -1,0 +1,33 @@
+﻿@model IEnumerable<MyEshop.Areas.Admin.Models.WareHouseViewModel>
+
+@{
+    ViewBag.Title = "فهرست " + Server.HtmlDecode(Html.DisplyModelPluralName(model => model).ToString());
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+        columns.Bound(model => model.ProductTitle);
+                      
+        columns.Bound(model => model.Count);
+					columns.Bound(item => @item.ProductID).Title("دستورات").Filterable(false).Groupable(false)
+							.Template(@<text>
+							              <a class="btn btn-info" href="/Admin/WareHouse/ListWareHouse/@item.ProductID">
+							                  <i class="glyphicon glyphicon-list"></i>
+							              </a>
+									</text>).Width(200);  
+		})
+		.Groupable()
+		.Pageable()
+		.Sortable()
+		.Scrollable()
+		.Filterable()              
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.ProductID))
+					)              
+	)

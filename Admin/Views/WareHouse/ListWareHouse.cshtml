@@ -1,0 +1,41 @@
+﻿@model List<MyEshop.Models.WareHouse>
+@{
+    ViewBag.Title = "ListWareHouse";
+    int Counter = 1;
+}
+
+<h2>لیست انبار : @Model[0].Products.Title</h2>
+
+<table class="table table-bordered">
+    <caption>
+        <a class="btn btn-success" onclick="AddWareHouse()">تراکنش جدید</a>
+    </caption>
+    <tr>
+        <th>#</th>
+        <th>تاریخ</th>
+        <th>تعداد</th>
+        <th>نوع تراکنش</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Counter</td>
+            <td>@item.date.ToString("yyyy/MM/dd")</td>
+            <td>@item.Count</td>
+            <td>@item.WareHouseTypes.TypeTitle</td>
+        </tr>
+
+        Counter += 1;
+    }
+</table>
+
+@section script
+{
+    <script>
+        function AddWareHouse() {
+            $("#myModal").modal();
+            $("#myModalLabel").html("تراکنش جدید");
+            $("#bodyModal").load("/Admin/WareHouse/AddWareHouse/" + @(Model[0].ProductID));
+        }
+    </script>
+}

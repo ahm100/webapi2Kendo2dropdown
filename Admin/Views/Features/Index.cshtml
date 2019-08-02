@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MyEshop.Models.Features>
+
+@{
+    ViewBag.Title = "فهرست " + Server.HtmlDecode(Html.DisplyModelPluralName(model => model).ToString());
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+          columns.Bound(model => model.FeatureTitle);
+					columns.Bound(item => @item.FeatureID).Title("دستورات").Filterable(false).Groupable(false)
+							.Template(@<text>
+									@Html.ActionLink("ویرایش", "Edit", new {id = @item.FeatureID}, new {@class = "k-button k-button-icontext k-grid-Edit"})
+									@Html.ActionLink("حذف", "Delete", new {id = @item.FeatureID}, new {@class = "k-button k-button-icontext k-grid-Delete"})
+									</text>).Width(200);  
+		})
+		.ToolBar(toolbar =>
+					{
+						toolbar.Custom().Action("Create","Features").Text("افزودن");                          
+					}
+		)
+		.Groupable()
+		.Pageable()
+		.Sortable()
+		.Scrollable()
+		.Filterable()              
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.FeatureID))
+					)              
+	)

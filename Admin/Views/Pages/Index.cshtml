@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MyEshop.Models.Pages>
+
+@{
+    ViewBag.Title = "فهرست " + Server.HtmlDecode(Html.DisplyModelPluralName(model => model).ToString());
+}
+
+<h2>@ViewBag.Title</h2>
+
+        @(Html.Kendo().Grid(Model)
+              .Name("Grid")
+              .Columns(columns =>
+                  {
+                      columns.Bound(item => @item.PageID).Title("تصویر").Filterable(false).Groupable(false)
+                            .Template(@<text>
+                  <img src="/Images/PageImages/@item.PageImage" style="max-width: 150px" class="thumbnail"/>
+                            </text>);
+                      columns.Bound(model => model.PageTitle);
+
+                      columns.Bound(model => model.PageSee);
+                      columns.Bound(item => @item.PageID).Title("دستورات").Filterable(false).Groupable(false)
+                              .Template(@<text>
+									@Html.ActionLink("ویرایش", "Edit", new {id = @item.PageID}, new {@class = "k-button k-button-icontext k-grid-Edit"})
+									@Html.ActionLink("حذف", "Delete", new {id = @item.PageID}, new {@class = "k-button k-button-icontext k-grid-Delete"})
+									</text>).Width(200);  
+		})
+		.ToolBar(toolbar =>
+					{
+						toolbar.Custom().Action("Create","Pages").Text("افزودن");                          
+					}
+		)
+		.Groupable()
+		.Pageable()
+		.Sortable()
+		.Scrollable()
+		.Filterable()              
+		.DataSource(dataSource => dataSource
+									.Server()
+							
+									.Model(model => model.Id(item => item.PageID))
+					)              
+	)
